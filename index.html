@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Билеты в Шарм</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tektur:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+body{margin:0}
+
+/* «Стальной навигатор»: шапка-монолит → полоса источников → три решения → фильтры слева, маршрутные карточки справа → перед покупкой.
+   Дизайн-код Playground v2 «Сталь и свет», блок токенов без изменений (design/tokens.css). Тёмная тема основная, светлая — переключателем. */
+:root{
+  --bg:#0A0C0F; --paper:#12161B; --soft:#1A2027; --grid:#11151A; --fg:#E6EBF0; --muted:#8C98A6; --line:#2A323C; --edge:#5F6B79; --scrim:rgb(0 0 0 / .6);
+  --accent:#35E6F2; --accent-soft:#0E2A30;
+  --ok:#4DF0A0; --ok-soft:#0F2A20; --warn:#FFB547; --warn-soft:#33260F; --fail:#FF6B61; --fail-soft:#3A1614;
+  --none:#9AA6B4; --none-soft:#1A2027; --pause:#E08BD0; --pause-soft:#33222F;
+  --cat-ai:#FF4FD8; --cat-ai-soft:#331230; --cat-inbox:#8EA4FF; --cat-inbox-soft:#1E2747;
+  --glow:rgb(53 230 242 / .65); --glow-fail:rgb(255 107 97 / .6); --glow-new:rgb(255 79 216 / .55);
+  --display:"Tektur","IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --body:"IBM Plex Sans","Segoe UI Variable","Segoe UI",system-ui,-apple-system,sans-serif;
+  --mono:"IBM Plex Mono","Cascadia Mono",ui-monospace,Menlo,Consolas,monospace;
+  --t-micro:12px; --t-small:13px; --t-body:15px; --t-lead:17px; --t-num:24px;
+  --t-h2:clamp(20px,2.6vw,28px); --t-h1:clamp(28px,5vw,52px);
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:40px; --s7:64px;
+  --cut-s:7px; --cut:10px; --cut-l:14px;
+  --w-page:1280px; --w-text:70ch;
+  color-scheme:dark;
+}
+:root[data-theme="light"]{
+  --bg:#DDE1E5; --paper:#EEF1F3; --soft:#E3E7EA; --grid:#D3D8DD;
+  --fg:#12161B; --muted:#4C5763; --line:#B4BDC6; --edge:#7B8792; --scrim:rgb(18 22 27 / .45);
+  --accent:#005F6B; --accent-soft:#CFE8EB;
+  --ok:#0B5E3A; --ok-soft:#D3EBDD; --warn:#7A4900; --warn-soft:#F3E4C8;
+  --fail:#A8271E; --fail-soft:#F6DAD6; --none:#4C5763; --none-soft:#E3E7EA;
+  --pause:#7A3F6B; --pause-soft:#EEDDE9;
+  --cat-ai:#8F0F7B; --cat-ai-soft:#F3D9EE; --cat-inbox:#2440B8; --cat-inbox-soft:#E0E6FA;
+  --glow:rgb(0 0 0 / 0); --glow-fail:rgb(0 0 0 / 0); --glow-new:rgb(0 0 0 / 0);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font:var(--t-body)/1.5 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:var(--s5) var(--s7)}
+.wrap{max-width:var(--w-page);margin:0 auto;display:grid;gap:var(--s6)}
+.cut{clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut))}
+.cut-s{clip-path:polygon(var(--cut-s) 0,100% 0,100% calc(100% - var(--cut-s)),calc(100% - var(--cut-s)) 100%,0 100%,0 var(--cut-s))}
+.eyebrow{font:500 var(--t-micro)/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font:700 var(--t-h1)/1.02 var(--display);margin:0;text-wrap:balance;text-transform:uppercase;letter-spacing:.02em}
+h1 .arr{color:var(--accent)}
+h2{font:700 var(--t-h2)/1.2 var(--display);margin:0;text-wrap:balance}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Шапка: текст, а не форма */
+header{display:grid;gap:var(--s3)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:var(--s4)}
+.spec{color:var(--muted);font-size:var(--t-lead);max-width:var(--w-text)}
+.lightbar{height:2px;background:linear-gradient(90deg,var(--accent),transparent 70%);box-shadow:0 0 12px var(--glow)}
+
+/* Кнопки: всё нажимаемое — с рамкой акцента, срезом и подписью-действием */
+.btn{font:600 var(--t-small)/1 var(--body);color:var(--accent);background:transparent;border:1px solid var(--accent);padding:10px var(--s4);cursor:pointer;
+  clip-path:polygon(var(--cut-s) 0,100% 0,100% calc(100% - var(--cut-s)),calc(100% - var(--cut-s)) 100%,0 100%,0 var(--cut-s));white-space:nowrap}
+.btn:hover{background:var(--accent-soft)}
+.btn[aria-expanded="true"]{background:var(--accent);color:var(--bg)}
+.btn.quiet{border-color:var(--line);color:var(--fg)}
+.btn.quiet:hover{border-color:var(--accent)}
+a.go{display:inline-flex;align-items:center;gap:var(--s2);text-decoration:none}
+
+/* Полоса источников: справка, не переключатели */
+.sources{display:grid;gap:var(--s3)}
+.src-head{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s5);align-items:baseline}
+.src-sum{font:var(--t-small) var(--mono);color:var(--muted)}
+.src-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));background:var(--paper);border:1px solid var(--line)}
+.src{display:grid;grid-template-columns:auto 1fr;gap:2px var(--s2);padding:var(--s3) var(--s4);border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-width:0}
+.src b{font-weight:600;font-size:var(--t-small)}
+.src span{grid-column:2;font:var(--t-micro)/1.4 var(--mono);color:var(--muted)}
+.src .st{color:var(--fg)}
+.dia{width:8px;height:8px;transform:rotate(45deg);margin-top:6px;background:var(--none)}
+.s-ok .dia{background:var(--ok)} .s-ok .st{color:var(--ok)}
+.s-fail .dia{background:var(--fail)} .s-fail .st{color:var(--fail)}
+.s-off .dia{background:transparent;border:1px solid var(--edge)} .s-off .st{color:var(--muted)}
+.disclaimer{border-left:2px solid var(--warn);padding:var(--s1) 0 var(--s1) var(--s4);color:var(--fg);max-width:var(--w-text)}
+
+/* Метки: информационные, ромб + текст, без рамки */
+.labels{display:flex;flex-wrap:wrap;gap:var(--s1) var(--s3)}
+.lb{display:inline-flex;align-items:center;gap:6px;font:500 var(--t-micro)/1.3 var(--mono);color:var(--muted)}
+.lb::before{content:"";width:7px;height:7px;transform:rotate(45deg);background:var(--none);flex:none}
+.lb.ok{color:var(--ok)} .lb.ok::before{background:var(--ok)}
+.lb.warn{color:var(--warn)} .lb.warn::before{background:var(--warn)}
+.lb.fail{color:var(--fail)} .lb.fail::before{background:var(--fail)}
+
+/* Маршрут */
+.leg{display:grid;grid-template-columns:auto minmax(40px,1fr) auto;gap:var(--s3);align-items:center;min-width:0}
+.pt{display:grid;gap:2px}
+.pt .tm{font:700 22px/1 var(--display);font-variant-numeric:tabular-nums}
+.pt .tm sup{font:500 var(--t-micro) var(--mono);color:var(--warn);margin-left:2px}
+.pt .ap{font:var(--t-micro)/1.2 var(--mono);color:var(--muted)}
+.pt.r{text-align:right}
+.line{display:grid;gap:3px;text-align:center;min-width:0}
+.line i{display:block;height:1px;background:var(--edge);position:relative}
+.line i::after{content:"";position:absolute;right:-1px;top:-3px;border-left:6px solid var(--edge);border-top:3px solid transparent;border-bottom:3px solid transparent}
+.line small{font:var(--t-micro)/1.2 var(--mono);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.line small.direct{color:var(--ok)}
+.legname{font:500 var(--t-micro)/1 var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+
+/* Три решения */
+.picks{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:var(--s4);align-items:start}
+.pick{background:var(--paper);border:1px solid var(--line);padding:var(--s5);display:grid;gap:var(--s4);min-width:0}
+.pick.lead{border-color:var(--accent)}
+.pick h3{margin:0;font:500 var(--t-micro)/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.price{font:700 30px/1 var(--display);font-variant-numeric:tabular-nums;letter-spacing:.01em}
+.per{font-size:var(--t-small);color:var(--muted);margin-top:var(--s1)}
+.legs{display:grid;gap:var(--s3)}
+.trade{font-size:var(--t-small);color:var(--muted)}
+.more{display:grid;gap:var(--s3);border-top:1px solid var(--line);padding-top:var(--s4);font-size:var(--t-small)}
+.more dl{display:grid;grid-template-columns:7.5em 1fr;gap:var(--s2) var(--s3);margin:0}
+.more dt{font:500 var(--t-micro)/1.6 var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.more dd{margin:0;min-width:0}
+.more ul{margin:0;padding-left:1.1em;display:grid;gap:var(--s1)}
+.gos{display:flex;flex-wrap:wrap;gap:var(--s2)}
+
+/* Список и фильтры */
+.board{display:grid;grid-template-columns:260px minmax(0,1fr);gap:var(--s5);align-items:start}
+.panel{background:var(--paper);border:1px solid var(--line);padding:var(--s5);display:grid;gap:var(--s4);position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--s4))}
+.panel summary{list-style:none;display:none}
+.panel summary::-webkit-details-marker{display:none}
+.panel .inner{display:grid;gap:var(--s4)}
+.hint{font-size:var(--t-small);color:var(--muted)}
+.chk{display:grid;grid-template-columns:20px 1fr;gap:var(--s2);align-items:start;cursor:pointer;font-size:var(--t-small)}
+.chk input{appearance:none;width:18px;height:18px;margin:1px 0 0;border:1.5px solid var(--edge);background:var(--bg);cursor:pointer;display:grid;place-content:center}
+.chk input::before{content:"";width:10px;height:10px;background:var(--accent);transform:scale(0);clip-path:polygon(14% 44%,0 65%,50% 100%,100% 16%,80% 0,43% 62%)}
+.chk input:checked{border-color:var(--accent)}
+.chk input:checked::before{transform:scale(1)}
+.chk:hover input{border-color:var(--accent)}
+label.sel{display:grid;gap:var(--s1);font-size:var(--t-small)}
+select{font:var(--t-small) var(--body);color:var(--fg);background:var(--bg);border:1.5px solid var(--edge);padding:var(--s2) var(--s3);cursor:pointer}
+select:hover{border-color:var(--accent)}
+.flabel{font:500 var(--t-micro)/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.fgroup{display:grid;gap:var(--s3)}
+.count{font:var(--t-small) var(--mono);color:var(--muted)}
+.list{display:grid;gap:var(--s3)}
+.card{background:var(--paper);border:1px solid var(--line);padding:var(--s4) var(--s5);display:grid;gap:var(--s3);min-width:0}
+.card.open{border-color:var(--accent)}
+.card .main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:var(--s5);align-items:center}
+.card .leg{grid-template-columns:auto minmax(30px,1fr) auto}
+.card .side{display:grid;gap:var(--s2);justify-items:end;text-align:right}
+.card .price{font-size:var(--t-num)}
+.card .meta{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);align-items:center;justify-content:space-between}
+.card .who{font-size:var(--t-small);color:var(--muted)}
+.empty{padding:var(--s5);border:1px dashed var(--line);color:var(--muted);display:grid;gap:var(--s3);justify-items:start}
+
+/* Перед покупкой */
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--s4)}
+.notes div{border-left:2px solid var(--line);padding:var(--s1) 0 var(--s1) var(--s4);font-size:var(--t-small);color:var(--muted)}
+.notes strong{display:block;color:var(--fg);font-weight:600;margin-bottom:var(--s1)}
+footer{color:var(--muted);font-size:var(--t-small);max-width:var(--w-text);display:grid;gap:var(--s2)}
+
+@media (max-width:980px){
+  .board{grid-template-columns:1fr}
+  .panel{position:static;padding:0;gap:0}
+  .panel summary{display:flex;justify-content:space-between;align-items:center;padding:var(--s3) var(--s4);cursor:pointer;font-weight:600;font-size:var(--t-small)}
+  .panel summary::after{content:"Открыть";font:500 var(--t-micro) var(--mono);color:var(--accent)}
+  .panel[open] summary::after{content:"Свернуть"}
+  .panel .inner{padding:0 var(--s4) var(--s4)}
+  .card .main{grid-template-columns:1fr}
+  .card .side{justify-items:start;text-align:left;grid-template-columns:1fr auto;align-items:center;width:100%}
+}
+@media (max-width:420px){
+  .pt .tm{font-size:19px}
+  .more dl{grid-template-columns:1fr}
+  .more dt{margin-top:var(--s1)}
+}
+@media (prefers-reduced-motion:no-preference){.card,.pick,.btn{transition:border-color .15s,background-color .15s}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header>
+    <div class="top">
+      <div class="eyebrow">HERZEN Flights · найденные билеты</div>
+      <button class="btn quiet" id="theme" type="button">Светлая тема</button>
+    </div>
+    <h1>Москва <span class="arr">⇄</span> Шарм&#8209;эль&#8209;Шейх</h1>
+    <p class="spec" id="spec"></p>
+    <div class="lightbar" aria-hidden="true"></div>
+  </header>
+
+  <section class="sources" aria-labelledby="src-h">
+    <div class="src-head"><h2 id="src-h">Где искали</h2><span class="src-sum" id="src-sum"></span></div>
+    <div class="src-grid" id="sources"></div>
+    <p class="disclaimer" id="disc"></p>
+  </section>
+
+  <section aria-labelledby="picks-h" style="display:grid;gap:var(--s4)">
+    <h2 id="picks-h">Три решения</h2>
+    <div class="picks" id="picks"></div>
+  </section>
+
+  <section aria-labelledby="all-h" style="display:grid;gap:var(--s4)">
+    <h2 id="all-h">Все варианты</h2>
+    <div class="board">
+      <details class="panel cut" id="panel" open>
+        <summary>Фильтры и сортировка</summary>
+        <div class="inner">
+          <p class="hint">Здесь можно фильтровать и сортировать найденные варианты. Даты, пассажиров и маршрут изменить нельзя — для нового поиска потребуется обновить данные.</p>
+          <div class="fgroup" role="group" aria-labelledby="fl1">
+            <span class="flabel" id="fl1">Показывать</span>
+            <label class="chk"><input type="checkbox" id="f-bag" checked><span>Багаж от 20 кг указан в выдаче</span></label>
+            <label class="chk"><input type="checkbox" id="f-direct"><span>Только прямые туда и обратно</span></label>
+            <label class="chk"><input type="checkbox" id="f-self"><span>Без самостоятельных пересадок и смены аэропорта</span></label>
+            <label class="chk"><input type="checkbox" id="f-ver"><span>Только сверенные на сайте авиакомпании</span></label>
+          </div>
+          <label class="sel"><span class="flabel">Порядок</span>
+            <select id="sort">
+              <option value="cheap">Сначала дешевле</option>
+              <option value="dear">Сначала дороже</option>
+              <option value="direct">Сначала прямые</option>
+            </select>
+          </label>
+          <button class="btn quiet" id="reset" type="button">Сбросить фильтры</button>
+        </div>
+      </details>
+      <div style="display:grid;gap:var(--s3);min-width:0">
+        <div class="count" id="count" aria-live="polite"></div>
+        <div class="list" id="list"></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="buy-h" style="display:grid;gap:var(--s4)">
+    <h2 id="buy-h">Перед покупкой</h2>
+    <p class="disclaimer">Подробно проверены вылеты 20–22 декабря. Более поздние даты и поездки на 15–16 дней изучены не полностью. Условия багажа и продавца подтверждены не для всех предложений.</p>
+    <div class="notes">
+      <div><strong>Самостоятельная пересадка</strong>Это раздельные билеты. Багаж перерегистрировать самим, при опоздании на стыковку перевозчик не отвечает.</div>
+      <div><strong>«Багаж 1×20 кг» на Яндексе</strong>Не сказано, на каждого это или на всю бронь. Открыть карточку и проверить перед оплатой.</div>
+      <div><strong>«Багаж 5 кг» у Ajet</strong>Так написано в карточке Aviasales. Для двух чемоданов этого мало. Цену 20 кг на сайте Ajet проверить не удалось: капча.</div>
+      <div><strong>Календари цен</strong>Календари на сайтах показывали 49–130 тыс. ₽, а выдача на те же даты — от 130 тыс. ₽ и дороже. Верить только выдаче.</div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Цены собрал ИИ-исполнитель в браузере компании: на агрегаторах и на сайтах авиакомпаний, как это сделал бы человек. Ничего не бронировал и не покупал.</p>
+    <p>Ссылки ведут в выдачу сайтов, а не к оплате. Цена там уже может быть другой.</p>
+  </footer>
+</div>
+
+<script>
+let DATA = {"spec": {"title": "Москва ⇄ Шарм-эль-Шейх", "line": "Вылет 20–31.12.2026 · 12–16 дней · 2 взрослых + дети 4 и 6 лет · 2 чемодана · до 1 пересадки", "pax": 4}, "sources": [{"name": "Aviasales", "kind": "агрегатор", "state": "ok", "at": "24.11.2026 01:05", "note": "2 захода: 00:20 и 01:05"}, {"name": "Яндекс Путешествия", "kind": "агрегатор", "state": "ok", "at": "24.11.2026 01:05", "note": "2 захода: 00:20 и 01:05"}, {"name": "Utair", "kind": "авиакомпания", "state": "ok", "at": "24.11.2026 01:05", "note": "Тарифы на 20.12 и 21.12"}, {"name": "Red Wings", "kind": "авиакомпания", "state": "ok", "at": "24.11.2026 01:05", "note": "Рейсов в Шарм нет"}, {"name": "Nordwind", "kind": "авиакомпания", "state": "ok", "at": "24.11.2026 01:05", "note": "Направления в Египет нет"}, {"name": "Ajet", "kind": "авиакомпания", "state": "fail", "at": "24.11.2026 01:05", "note": "Капча «я не бот»"}, {"name": "Аэрофлот", "kind": "авиакомпания", "state": "fail", "at": "24.11.2026 01:05", "note": "Страница блокировки"}, {"name": "Air Cairo", "kind": "авиакомпания", "state": "fail", "at": "24.11.2026 01:05", "note": "Нельзя отказаться от cookie, поиск не делали"}, {"name": "Red Sea Airlines", "kind": "авиакомпания", "state": "off", "note": "Не подключён"}, {"name": "AlMasria", "kind": "авиакомпания", "state": "off", "note": "Не подключён"}, {"name": "flyplus", "kind": "авиакомпания", "state": "off", "note": "Не подключён"}, {"name": "Skyscanner", "kind": "агрегатор", "state": "off", "note": "Не подключён"}], "offers": [{"id": 1, "price": 153715, "price_note": "с багажом 5 кг ×4 по карточке; без багажа 135427", "out": {"dep": {"date": "2026-12-20", "time": "06:00", "ap": "VKO"}, "arr": {"date": "2026-12-21", "time": "01:35", "ap": "SSH"}, "via": "SAW"}, "ret": {"dep": {"date": "2027-01-03", "time": "03:30", "ap": "SSH"}, "arr": {"date": "2027-01-04", "time": "05:00", "ap": "VKO"}, "via": "SAW"}, "carriers": "Ajet", "stops": "SAW туда и обратно", "direct": false, "bag20": false, "baggage": "багаж 5 кг ×4 за доплату; сумка 4 кг ×4", "seller": "не проверен", "source": "Aviasales", "verified": false, "labels": [{"kind": "warn", "text": "Багаж 5 кг — это не чемодан"}], "details": [], "links": [{"site": "Aviasales", "url": "https://www.aviasales.ru/search/MOW2012SSH030122"}], "checked": "24.11.2026 00:20"}, {"id": 2, "price": 154050, "price_note": "с багажом 5 кг ×4; без багажа 135758", "out": {"dep": {"date": "2026-12-22", "time": "06:00", "ap": "VKO"}, "arr": {"date": "2026-12-23", "time": "00:05", "ap": "SSH"}, "via": "SAW"}, "ret": {"dep": {"date": "2027-01-05", "time": "05:10", "ap": "SSH"}, "arr": {"date": "2027-01-06", "time": "05:00", "ap": "VKO"}, "via": "SAW"}, "carriers": "Ajet", "stops": "SAW туда и обратно", "direct": false, "bag20": false, "baggage": "багаж 5 кг ×4 за доплату; сумка 4 кг ×4", "seller": "не проверен", "source": "Aviasales", "verified": false, "labels": [{"kind": "warn", "text": "Багаж 5 кг — это не чемодан"}], "details": [], "links": [{"site": "Aviasales", "url": "https://www.aviasales.ru/search/MOW2212SSH050122"}], "checked": "24.11.2026 00:20"}, {"id": 3, "price": 160282, "price_note": "за всех, фильтр С багажом", "out": {"dep": {"date": "2026-12-22", "time": "06:00", "ap": "VKO"}, "arr": {"date": "2026-12-23", "time": "00:05", "ap": "SSH"}, "via": "SAW"}, "ret": {"dep": {"date": "2027-01-03", "time": "03:30", "ap": "SSH"}, "arr": {"date": "2027-01-04", "time": "05:00", "ap": "VKO"}, "via": "SAW"}, "carriers": "Ajet", "stops": "SAW 12 ч / SAW 17 ч 25 м", "direct": false, "bag20": true, "baggage": "Багаж 1×20 кг, ручная кладь", "seller": "не проверен", "source": "Яндекс Путешествия", "verified": false, "labels": [{"kind": "warn", "text": "Количество мест багажа не уточнено"}], "details": ["Пересадка в Стамбуле (SAW): туда 12 ч, обратно 17 ч 25 мин.", "В 01:05 Яндекс показывал этот рейс без багажа за 132 640 ₽, с фильтром «С багажом» — от 160 282 ₽. Карточку с багажом не открывали.", "На ajet.com сверить не удалось: капча."], "links": [{"site": "Яндекс Путешествия", "url": "https://travel.yandex.ru/avia/search/result/?adult_seats=2&children_seats=2&fromId=c213&infant_seats=0&klass=economy&oneway=2&return_date=2027-01-03&toId=c11487&when=2026-12-22#bg=1"}], "checked": "24.11.2026 01:05"}, {"id": 4, "price": 163416, "price_note": "за всех; самостоятельные пересадки", "out": {"dep": {"date": "2026-12-20", "time": "02:50", "ap": "VKO"}, "arr": {"date": "2026-12-21", "time": "01:35", "ap": "SSH"}, "via": "SAW"}, "ret": {"dep": {"date": "2027-01-01", "time": "10:40", "ap": "SSH"}, "arr": {"date": "2027-01-01", "time": "20:00", "ap": "DME"}, "via": "EVN"}, "carriers": "Ajet / FLYONE Armenia", "stops": "SAW 16 ч 40 м / EVN 2 ч, самостоятельная пересадка", "direct": false, "bag20": true, "baggage": "Багаж 1×20 кг", "seller": "не проверен", "source": "Яндекс Путешествия", "verified": false, "labels": [{"kind": "warn", "text": "Количество мест багажа не уточнено"}, {"kind": "fail", "text": "Самостоятельная пересадка"}], "details": ["Туда через Стамбул (SAW), ожидание 16 ч 40 мин. Обратно через Ереван (EVN), 2 ч.", "Яндекс пишет «самостоятельная пересадка»: это раздельные билеты. Багаж перерегистрировать самим, при опоздании на стыковку перевозчик не отвечает."], "links": [{"site": "Яндекс Путешествия", "url": "https://travel.yandex.ru/avia/search/result/?adult_seats=2&children_seats=2&fromId=c213&infant_seats=0&klass=economy&oneway=2&return_date=2027-01-01&salesChannel=B2C&toId=c11487&when=2026-12-20#bg=1"}], "checked": "24.11.2026 00:20"}, {"id": 5, "price": 169279, "price_note": "с багажом 5 кг ×4; без багажа 130218 (Авиасейлс) / 130602 (Купибилет); добавить багаж +39061", "out": {"dep": {"date": "2026-12-20", "time": "06:00", "ap": "VKO"}, "arr": {"date": "2026-12-21", "time": "01:35", "ap": "SSH"}, "via": "SAW"}, "ret": {"dep": {"date": "2027-01-01", "time": "03:30", "ap": "SSH"}, "arr": {"date": "2027-01-01", "time": "22:25", "ap": "SVO"}, "via": "SAW → IST"}, "carriers": "Ajet / Ajet + Аэрофлот", "stops": "SAW 13 ч 30 м / смена аэропорта SAW→IST 10 ч 10 м", "direct": false, "bag20": false, "baggage": "без багажа и ручной клади, сумка 4 кг ×4", "seller": "Авиасейлс; Купибилет", "source": "Aviasales", "verified": false, "labels": [{"kind": "fail", "text": "Смена аэропорта SAW → IST"}, {"kind": "warn", "text": "Без багажа"}], "details": ["Обратно пересадка со сменой аэропорта: прилёт в Сабиху Гёкчен (SAW), вылет из Стамбула (IST), 10 ч 10 мин.", "В 01:05 на Aviasales без багажа — 130 592 ₽. «Добавить багаж» — +39 061 ₽."], "links": [{"site": "Aviasales", "url": "https://www.aviasales.ru/search/MOW2012SSH010122"}], "checked": "24.11.2026 01:05"}, {"id": 6, "price": 170378, "price_note": "за всех, фильтр С багажом", "out": {"dep": {"date": "2026-12-21", "time": "08:50", "ap": "VKO"}, "arr": {"date": "2026-12-21", "time": "14:15", "ap": "SSH"}, "via": ""}, "ret": {"dep": {"date": "2027-01-02", "time": "05:10", "ap": "SSH"}, "arr": {"date": "2027-01-03", "time": "05:00", "ap": "VKO"}, "via": "SAW"}, "carriers": "Utair / Ajet", "stops": "туда прямой / SAW 15 ч 45 м", "direct": false, "bag20": true, "baggage": "Багаж 1×20 кг, ручная кладь 1×5 кг", "seller": "не проверен", "source": "Яндекс Путешествия", "verified": false, "labels": [{"kind": "warn", "text": "Количество мест багажа не уточнено"}], "details": [], "links": [{"site": "Яндекс Путешествия", "url": "https://travel.yandex.ru/avia/search/result/?adult_seats=2&children_seats=2&fromId=c213&infant_seats=0&klass=economy&oneway=2&return_date=2027-01-02&toId=c11487&when=2026-12-21#bg=1"}], "checked": "24.11.2026 00:20"}, {"id": 7, "price": 171925, "price_note": "с багажом 5 кг ×4; без багажа 153440", "out": {"dep": {"date": "2026-12-21", "time": "06:00", "ap": "VKO"}, "arr": {"date": "2026-12-22", "time": "01:35", "ap": "SSH"}, "via": "SAW"}, "ret": {"dep": {"date": "2027-01-04", "time": "05:10", "ap": "SSH"}, "arr": {"date": "2027-01-05", "time": "05:00", "ap": "VKO"}, "via": "SAW"}, "carriers": "Ajet", "stops": "SAW туда и обратно", "direct": false, "bag20": false, "baggage": "багаж 5 кг ×4 за доплату; сумка 4 кг ×4", "seller": "не проверен", "source": "Aviasales", "verified": false, "labels": [{"kind": "warn", "text": "Багаж 5 кг — это не чемодан"}], "details": [], "links": [{"site": "Aviasales", "url": "https://www.aviasales.ru/search/MOW2112SSH040122"}], "checked": "24.11.2026 00:20"}, {"id": 8, "price": 176450, "price_note": "за всех, фильтр С багажом", "out": {"dep": {"date": "2026-12-21", "time": "08:50", "ap": "VKO"}, "arr": {"date": "2026-12-21", "time": "14:15", "ap": "SSH"}, "via": ""}, "ret": {"dep": {"date": "2027-01-02", "time": "15:45", "ap": "SSH"}, "arr": {"date": "2027-01-02", "time": "23:05", "ap": "VKO"}, "via": ""}, "carriers": "Utair", "stops": "прямые", "direct": true, "bag20": true, "baggage": "Багаж 1×20 кг, ручная кладь 1×5 кг", "seller": "не проверен", "source": "Яндекс Путешествия", "verified": false, "labels": [{"kind": "warn", "text": "Количество мест багажа не уточнено"}, {"kind": "warn", "text": "На сайте Utair этот рейс — 185 140 ₽"}], "details": ["Яндекс: 176 450 ₽ с «Багаж 1×20 кг». На utair.ru в 01:05 тот же рейс 21.12 → 02.01 в тарифе «Оптимум» — 185 140 ₽. Дешевле на сайте авиакомпании не нашли."], "links": [{"site": "Яндекс Путешествия", "url": "https://travel.yandex.ru/avia/search/result/?adult_seats=2&children_seats=2&fromId=c213&infant_seats=0&klass=economy&oneway=2&return_date=2027-01-02&toId=c11487&when=2026-12-21#bg=1"}], "checked": "24.11.2026 01:05"}, {"id": 9, "price": 176571, "price_note": "за всех с багажом; без багажа 163249", "out": {"dep": {"date": "2026-12-20", "time": "08:25", "ap": "VKO"}, "arr": {"date": "2026-12-20", "time": "13:50", "ap": "SSH"}, "via": ""}, "ret": {"dep": {"date": "2027-01-01", "time": "14:30", "ap": "SSH"}, "arr": {"date": "2027-01-01", "time": "21:50", "ap": "VKO"}, "via": ""}, "carriers": "Utair", "stops": "прямые", "direct": true, "bag20": true, "baggage": "Багаж 1×20 кг, ручная кладь 1×5 кг", "seller": "не проверен", "source": "Яндекс Путешествия", "verified": false, "labels": [{"kind": "warn", "text": "Количество мест багажа не уточнено"}, {"kind": "warn", "text": "На сайте Utair этот рейс — 185 140 ₽"}], "details": ["Яндекс: 176 571 ₽ с «Багаж 1×20 кг», без багажа 163 249 ₽. На utair.ru в 01:05 — 185 140 ₽ в «Оптимуме»."], "links": [{"site": "Яндекс Путешествия", "url": "https://travel.yandex.ru/avia/search/result/?adult_seats=2&children_seats=2&fromId=c213&infant_seats=0&klass=economy&oneway=2&return_date=2027-01-01&salesChannel=B2C&toId=c11487&when=2026-12-20#bg=1"}], "checked": "24.11.2026 01:05"}, {"id": 10, "price": 185140, "price_note": "за 4 пассажиров с багажом; без багажа 163937", "out": {"dep": {"date": "2026-12-20", "time": "08:25", "ap": "VKO"}, "arr": {"date": "2026-12-20", "time": "13:50", "ap": "SSH"}, "via": ""}, "ret": {"dep": {"date": "2027-01-01", "time": "14:30", "ap": "SSH"}, "arr": {"date": "2027-01-01", "time": "21:50", "ap": "VKO"}, "via": ""}, "carriers": "Utair", "stops": "прямые", "direct": true, "bag20": true, "baggage": "Багаж 20 кг ×4, ручная кладь 5 кг ×4, сумка 5 кг ×4", "seller": "Utair", "source": "Aviasales", "verified": true, "labels": [{"kind": "ok", "text": "Сверено на сайте Utair · 01:05"}], "details": ["Тариф «Оптимум» на utair.ru: ручная кладь 5 кг, багаж 20 кг и спортинвентарь 20 кг на каждого. Обмен платный, возврат недоступен.", "Взрослый — 51 895 ₽, ребёнок — 40 675 ₽ туда и обратно. Рейсы UT757 и UT758.", "Без багажа («Минимум») Aviasales показывал 163 937 ₽."], "links": [{"site": "Utair", "url": "https://www.utair.ru/booking/search/!/MOW/SSH/20.12.2026+01.01.2027/2-2-0/"}, {"site": "Aviasales", "url": "https://www.aviasales.ru/search/MOW2012SSH010122"}], "checked": "24.11.2026 01:05"}, {"id": 11, "price": 204860, "price_note": "с багажом; без багажа 184335", "out": {"dep": {"date": "2026-12-20", "time": "08:25", "ap": "VKO"}, "arr": {"date": "2026-12-20", "time": "13:50", "ap": "SSH"}, "via": ""}, "ret": {"dep": {"date": "2027-01-03", "time": "15:20", "ap": "SSH"}, "arr": {"date": "2027-01-03", "time": "22:40", "ap": "VKO"}, "via": ""}, "carriers": "Utair", "stops": "прямые", "direct": true, "bag20": true, "baggage": "Багаж 20 кг ×4, ручная кладь 5 кг ×4", "seller": "не проверен", "source": "Aviasales", "verified": false, "labels": [], "details": [], "links": [{"site": "Aviasales", "url": "https://www.aviasales.ru/search/MOW2012SSH030122"}], "checked": "24.11.2026 00:20"}, {"id": 12, "price": 218070, "price_note": "с багажом; без багажа 197797", "out": {"dep": {"date": "2026-12-21", "time": "08:50", "ap": "VKO"}, "arr": {"date": "2026-12-21", "time": "14:15", "ap": "SSH"}, "via": ""}, "ret": {"dep": {"date": "2027-01-04", "time": "15:45", "ap": "SSH"}, "arr": {"date": "2027-01-04", "time": "23:05", "ap": "VKO"}, "via": ""}, "carriers": "Utair", "stops": "прямые", "direct": true, "bag20": true, "baggage": "Багаж 20 кг ×4, ручная кладь 5 кг ×4", "seller": "не проверен", "source": "Aviasales", "verified": false, "labels": [], "details": [], "links": [{"site": "Aviasales", "url": "https://www.aviasales.ru/search/MOW2112SSH040122"}], "checked": "24.11.2026 00:20"}, {"id": 13, "price": 231054, "price_note": "за всех, багаж включён", "out": {"dep": {"date": "2026-12-22", "time": "15:45", "ap": "DME"}, "arr": {"date": "2026-12-22", "time": "23:30", "ap": "SSH"}, "via": "CAI"}, "ret": {"dep": {"date": "2027-01-05", "time": "05:00", "ap": "SSH"}, "arr": {"date": "2027-01-05", "time": "14:45", "ap": "DME"}, "via": "CAI"}, "carriers": "не прочитан (пересадка CAI)", "stops": "CAI туда и обратно, 8 ч 45 м в пути", "direct": false, "bag20": true, "baggage": "Багаж 23 кг — 8 шт, ручная кладь 8 кг ×4", "seller": "не проверен", "source": "Aviasales", "verified": false, "labels": [{"kind": "none", "text": "Перевозчик не прочитан"}], "details": ["Пересадка в Каире (CAI) в обе стороны, 8 ч 45 мин в пути. Багаж 23 кг × 8 мест."], "links": [{"site": "Aviasales", "url": "https://www.aviasales.ru/search/MOW2212SSH050122"}], "checked": "24.11.2026 00:20"}, {"id": 14, "price": 185140, "price_note": "тариф «Оптимум», за всех", "out": {"dep": {"date": "2026-12-21", "time": "08:50", "ap": "VKO"}, "arr": {"date": "2026-12-21", "time": "14:15", "ap": "SSH"}, "via": ""}, "ret": {"dep": {"date": "2027-01-02", "time": "15:45", "ap": "SSH"}, "arr": {"date": "2027-01-02", "time": "23:05", "ap": "VKO"}, "via": ""}, "carriers": "Utair", "stops": "прямые", "direct": true, "bag20": true, "baggage": "Ручная кладь 5 кг, багаж 20 кг, спортинвентарь 20 кг на каждого", "seller": "Utair", "source": "Utair", "verified": true, "labels": [{"kind": "ok", "text": "Сверено на сайте Utair · 01:05"}], "details": ["Тариф «Оптимум»: обмен платный, возврат недоступен. Взрослый — 51 895 ₽, ребёнок — 40 675 ₽ туда и обратно. Рейсы UT757 и UT758.", "Это тот же рейс, что на Яндексе за 176 450 ₽. На сайте авиакомпании дешевле не нашли."], "links": [{"site": "Utair", "url": "https://www.utair.ru/booking/search/!/MOW/SSH/21.12.2026+02.01.2027/2-2-0/"}], "checked": "24.11.2026 01:05"}], "picks": [{"id": 3, "title": "Самый дешёвый с багажом 20 кг", "tradeoff": "Ajet через Стамбул, ожидание 12 ч и 17 ч 25 мин. Сколько мест багажа — не уточнено."}, {"id": 8, "title": "Самый дешёвый прямой с багажом", "tradeoff": "Utair, 21.12 → 02.01. На сайте Utair этот же рейс — 185 140 ₽: цену Яндекса подтвердить не удалось."}, {"id": 10, "title": "Прямой, сверен у Utair", "tradeoff": "Utair, 20.12 → 01.01. Багаж 20 кг на каждого. Цена совпала на Aviasales и на utair.ru."}], "checked_range": "24 ноября 2026, 00:20–01:05 МСК"};           // встроенный снимок: работает и без сети
+const DATA_URL = 'https://gist.githubusercontent.com/yaroslavtua-droid/1fcaf521020c1c14209c21195389df9a/raw/data.json'; // свежие данные из Gist; пусто — только снимок
+const MON = ['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const rub = n => n.toLocaleString('ru-RU').replace(/ |,/g, ' ') + ' ₽';
+const day = s => { const [, m, d] = s.split('-'); return `${+d} ${MON[m - 1]}`; };
+const stamp = s => s ? s.replace(/^(\d\d)\.(\d\d)\.\d{4} /, '$1.$2, ') : '';
+function main(){
+const byId = Object.fromEntries(DATA.offers.map(o => [o.id, o]));
+
+document.getElementById('spec').textContent = DATA.spec.line;
+document.getElementById('disc').textContent =
+  `Цены проверены ${DATA.checked_range}. Это сохранённая выдача, а не поиск в реальном времени. Перед покупкой проверьте актуальную цену.`;
+
+/* Источники */
+const ST = {ok: ['проверен', 's-ok'], fail: ['не удалось', 's-fail'], off: ['не подключён', 's-off']};
+const order = {ok: 0, fail: 1, off: 2};
+const srcs = [...DATA.sources].sort((a, b) => order[a.state] - order[b.state]);
+document.getElementById('sources').innerHTML = srcs.map(s => {
+  const [word, cls] = ST[s.state];
+  const when = s.state === 'off' ? '' : ` · ${stamp(s.at)}`;
+  const note = s.state === 'off' ? s.kind : s.note;
+  return `<div class="src ${cls}"><i class="dia" aria-hidden="true"></i><b>${esc(s.name)}</b>
+    <span class="st">${word}${esc(when)}</span><span>${esc(note)}</span></div>`;
+}).join('');
+const cnt = k => DATA.sources.filter(s => s.state === k).length;
+document.getElementById('src-sum').textContent = `${cnt('ok')} проверены · ${cnt('fail')} не удалось · ${cnt('off')} не подключены`;
+
+/* Общие куски */
+function leg(o, dir){
+  const L = o[dir], dep = L.dep, arr = L.arr;
+  const plus = arr.date > dep.date ? `<sup>+${Math.round((new Date(arr.date) - new Date(dep.date)) / 864e5)}</sup>` : '';
+  const via = L.via ? `через ${esc(L.via)}` : 'прямой';
+  return `<div style="display:grid;gap:var(--s1);min-width:0">
+    <span class="legname">${dir === 'out' ? 'Туда' : 'Обратно'} · ${day(dep.date)}</span>
+    <div class="leg">
+      <div class="pt"><span class="tm">${dep.time}</span><span class="ap">${dep.ap}</span></div>
+      <div class="line"><small class="${L.via ? '' : 'direct'}">${via}</small><i></i></div>
+      <div class="pt r"><span class="tm">${arr.time}${plus}</span><span class="ap">${arr.ap}</span></div>
+    </div></div>`;
+}
+const labels = o => `<div class="labels">${o.labels.map(l => `<span class="lb ${l.kind}">${esc(l.text)}</span>`).join('')}
+  ${o.verified ? '' : `<span class="lb">Найдено у агрегатора · ${esc(o.source)}</span>`}</div>`;
+function more(o){
+  return `<div class="more" id="more-${o.id}-%K%">
+    <dl>
+      <dt>Перевозчик</dt><dd>${esc(o.carriers)}</dd>
+      <dt>Пересадки</dt><dd>${esc(o.stops)}</dd>
+      <dt>Багаж</dt><dd>${esc(o.baggage)}</dd>
+      <dt>Цена</dt><dd>${esc(o.price_note)}</dd>
+      <dt>Продавец</dt><dd>${esc(o.seller)}</dd>
+      <dt>Проверено</dt><dd>${esc(stamp(o.checked))} МСК</dd>
+    </dl>
+    ${o.details.length ? `<ul>${o.details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}
+    <div class="gos">${o.links.map(l => `<a class="btn go" href="${esc(l.url)}" target="_blank" rel="noopener">Открыть выдачу на ${esc(l.site)} ↗</a>`).join('')}</div>
+  </div>`;
+}
+
+/* Раскрытие: одновременно открыта одна карточка */
+let openKey = null;
+function toggle(key){
+  openKey = openKey === key ? null : key;
+  document.querySelectorAll('[data-key]').forEach(el => {
+    const on = el.dataset.key === openKey;
+    el.classList.toggle('open', on);
+    el.querySelector('.more').hidden = !on;
+    const b = el.querySelector('[data-toggle]');
+    b.setAttribute('aria-expanded', on); b.textContent = on ? 'Свернуть' : 'Подробнее';
+  });
+}
+document.addEventListener('click', e => { const b = e.target.closest('[data-toggle]'); if (b) toggle(b.dataset.toggle); });
+
+/* Три решения */
+document.getElementById('picks').innerHTML = DATA.picks.map((p, k) => {
+  const o = byId[p.id], key = `p${o.id}`;
+  return `<article class="pick cut${k === 0 ? ' lead' : ''}" data-key="${key}">
+    <h3>${esc(p.title)}</h3>
+    <div><div class="price">${rub(o.price)}</div><div class="per">За 4 пассажиров · туда и обратно</div></div>
+    <div class="legs">${leg(o, 'out')}${leg(o, 'ret')}</div>
+    <p class="trade">${esc(p.tradeoff)}</p>
+    ${labels(o)}
+    <button class="btn" type="button" data-toggle="${key}" aria-expanded="false" aria-controls="more-${o.id}-${key}">Подробнее</button>
+    ${more(o).replace('%K%', key).replace('<div class="more"', '<div class="more" hidden')}
+  </article>`;
+}).join('');
+
+/* Список */
+const F = {bag: 'f-bag', direct: 'f-direct', self: 'f-self', ver: 'f-ver'};
+for (const k in F) F[k] = document.getElementById(F[k]);
+const sortEl = document.getElementById('sort');
+const risky = o => o.labels.some(l => l.kind === 'fail');
+function render(){
+  let rows = DATA.offers.filter(o => (!F.bag.checked || o.bag20) && (!F.direct.checked || o.direct)
+    && (!F.self.checked || !risky(o)) && (!F.ver.checked || o.verified));
+  const s = sortEl.value;
+  rows.sort((a, b) => s === 'dear' ? b.price - a.price : s === 'direct' ? (b.direct - a.direct) || (a.price - b.price) : a.price - b.price);
+  document.getElementById('count').textContent = `Показано ${rows.length} из ${DATA.offers.length}`;
+  document.getElementById('list').innerHTML = rows.length ? rows.map(o => {
+    const key = `l${o.id}`;
+    return `<article class="card cut${openKey === key ? ' open' : ''}" data-key="${key}">
+      <div class="main">${leg(o, 'out')}${leg(o, 'ret')}
+        <div class="side"><div><div class="price">${rub(o.price)}</div><div class="per">за 4 пассажиров</div></div>
+          <button class="btn" type="button" data-toggle="${key}" aria-expanded="${openKey === key}" aria-controls="more-${o.id}-${key}">${openKey === key ? 'Свернуть' : 'Подробнее'}</button></div>
+      </div>
+      <div class="meta"><span class="who">${esc(o.carriers)}</span>${labels(o)}</div>
+      ${more(o).replace('%K%', key).replace('<div class="more"', `<div class="more"${openKey === key ? '' : ' hidden'}`)}
+    </article>`;
+  }).join('') : `<div class="empty">Под эти фильтры ничего не подходит.<button class="btn quiet" type="button" onclick="resetF()">Сбросить фильтры</button></div>`;
+}
+function resetF(){ F.bag.checked = true; F.direct.checked = F.self.checked = F.ver.checked = false; sortEl.value = 'cheap'; render(); }
+Object.values(F).forEach(x => x.addEventListener('change', render));
+sortEl.addEventListener('change', render);
+document.getElementById('reset').addEventListener('click', resetF);
+render();
+
+/* Мобильный: фильтры свёрнуты */
+const panel = document.getElementById('panel');
+if (matchMedia('(max-width:980px)').matches) panel.open = false;
+
+window.resetF = resetF;
+}
+
+/* Сначала пробуем свежие данные из Gist, при любой ошибке — встроенный снимок */
+(async () => {
+  if (DATA_URL.startsWith('https://')) {
+    try {
+      const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 5000);
+      const r = await fetch(DATA_URL + '?t=' + Date.now(), {signal: ctl.signal, cache: 'no-store'});
+      clearTimeout(t);
+      if (r.ok) { const d = await r.json(); if (d && Array.isArray(d.offers) && d.offers.length) DATA = d; }
+    } catch (e) {}
+  }
+  main();
+})();
+
+/* Тема */
+const themeBtn = document.getElementById('theme');
+function setTheme(t){
+  if (t === 'light') document.documentElement.setAttribute('data-theme', 'light'); else document.documentElement.removeAttribute('data-theme');
+  themeBtn.textContent = t === 'light' ? 'Тёмная тема' : 'Светлая тема';
+  try { localStorage.setItem('theme', t); } catch (e) {}
+}
+let saved = 'dark'; try { saved = localStorage.getItem('theme') || 'dark'; } catch (e) {}
+setTheme(saved);
+themeBtn.addEventListener('click', () => setTheme(document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'));
+</script>
+
+</body>
+</html>
